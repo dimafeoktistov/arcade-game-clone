@@ -31,29 +31,30 @@ class Enemy {
 class Player {
   constructor(x = 202, y = 400) {
     // Load player image
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-horn-girl.png';
     // Starting coordinates
     this.x = x;
     this.y = y;
   }
 
   update(dt) {
-    this.x = this.x;
+    // this.x = this.x;
   }
 
   // Draw the player on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.strokeRect(this.x, this.y + 40, 80, 80);
   }
 
   handleInput(key) {
     switch (key) {
       case 'up':
-        this.y -= 85;
+        this.y -= 83;
         console.log('this.y', this.y);
         break;
       case 'down':
-        this.y += 85;
+        this.y += 83;
         console.log('this.y', this.y);
         break;
       case 'left':
