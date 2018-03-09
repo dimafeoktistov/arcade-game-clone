@@ -29,12 +29,12 @@ class Enemy {
 }
 
 class Player {
-  constructor() {
+  constructor(x = 202, y = 400) {
     // Load player image
     this.sprite = 'images/char-boy.png';
     // Starting coordinates
-    this.x = 202;
-    this.y = 400;
+    this.x = x;
+    this.y = y;
   }
 
   update(dt) {
@@ -45,6 +45,27 @@ class Player {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
+
+  handleInput(key) {
+    switch (key) {
+      case 'up':
+        this.y -= 85;
+        console.log('this.y', this.y);
+        break;
+      case 'down':
+        this.y += 85;
+        console.log('this.y', this.y);
+        break;
+      case 'left':
+        this.x -= 101;
+        console.log('this.x', this.x);
+        break;
+      case 'right':
+        this.x += 101;
+        console.log('this.x', this.x);
+        break;
+    }
+  }
 }
 
 const enemy1 = new Enemy();
@@ -53,7 +74,8 @@ const player = new Player();
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-  var allowedKeys = {
+  e.preventDefault;
+  const allowedKeys = {
     37: 'left',
     38: 'up',
     39: 'right',
