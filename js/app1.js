@@ -69,7 +69,8 @@ class Player {
 }
 
 const enemy1 = new Enemy();
-const allEnemies = [enemy1];
+const enemy2 = new Enemy(100, 300);
+const allEnemies = [enemy1, enemy2];
 const player = new Player();
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
