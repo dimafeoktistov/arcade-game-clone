@@ -175,7 +175,9 @@ class Game {
 
   resetGame() {
     player.defaultPosition();
-    gem.reset();
+    allGems.forEach(function(gem) {
+      gem.reset();
+    });
     player.gems = 0;
     player.lives = 5;
     game.started = true;
@@ -190,7 +192,7 @@ class Gem {
     this.y = y;
     this.boxWidth = 80;
     this.boxHeight = 67;
-    this.sprite = 'images/Gem-Green.png';
+    this.sprite = 'images/greengem.png';
   }
 
   update(dt) {

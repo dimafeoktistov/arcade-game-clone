@@ -356,7 +356,7 @@ document.querySelector('.start').addEventListener('click', function() {
     'images/enemy-bug.png',
     'images/char-boy.png',
     'images/char-horn-girl.png',
-    'images/Gem-Green.png'
+    'images/greengem.png'
   ]);
   Resources.onReady(init);
 });
