@@ -3,23 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <button type="button" class="start" name="button">Start game</button>
-    <div class="live"></div>
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="display-3">Frogger Game!</h1>
+      <p class="lead">To win in this game you should collect 3 diamonds and avoid bugs. To start plaing press "Start game" button.
+      To move around use your arrow buttons.</p>
+      <hr class="m-y-md">
+      <p>When you will win or lose in game you will get additional instructions. </p>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">Helper notes</h4>
+            <p class="card-text">You have 5 lifes so you don't need to worry about bugs too much. And anyway if you feel like you are loosing you always can press restart button.</p>
+            <p class="card-text">Also you can use keyboard shortcut for restarting which is: <strong>R</strong></p>
+            <button type="button" class="btn-primary btn-block restart" name="button">Restart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">The game!</h4>
+            <button type="button" class="start btn-success btn-block restart" name="button">Start game</button>
+            <div class="game"></div>
+            <div class="game-info">
+              <div class="live"></div>
+              <div class="gems"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div> <!-- row -->
+  </div><!-- container -->
+
 
     <div class="js-modal">
       <div class="js-modal-inner">
-        YOU LOST! HAHAHA
-
-        <div class="timer">
-          <span class="game-timer"></span>
-        </div>
-
+        <span class="message"></span>
         <div class="js-modal-button">
-          <button type="button" class="btn replay">Play again!</button>
-          <button type="button" class="btn dissmiss ok">Ok</button>
+          <button type="button" class="btn btn-primary replay">Play again!</button>
+          <button type="button" class="btn btn-danger ok">Ok</button>
         </div>
 
       </div>
