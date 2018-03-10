@@ -29,7 +29,7 @@ class Enemy {
   // Draw the enemy on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.drawBox(this.x, this.y + 75, this.boxWidth, this.boxHeight);
+    // this.drawBox(this.x, this.y + 75, this.boxWidth, this.boxHeight);
   }
 
   collisionsCheck() {
@@ -57,20 +57,18 @@ class Enemy {
       enemyBox.height + enemyBox.y > playerBox.y
     ) {
       // Collision detected!
-      console.log('Collision is detected.');
       player.lives--;
-      lives.innerHTML = `You lives: ${player.lives}`;
-      player.collision();
+      player.defaultPosition();
     }
   }
-
-  drawBox(x, y, width, height) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = '';
-    ctx.strokeStyle = '';
-    ctx.stroke();
-  }
+  //
+  // drawBox(x, y, width, height) {
+  //   ctx.beginPath();
+  //   ctx.rect(x, y, width, height);
+  //   ctx.lineWidth = '';
+  //   ctx.strokeStyle = '';
+  //   ctx.stroke();
+  // }
 }
 
 class Player {
@@ -87,14 +85,14 @@ class Player {
 
   update() {}
 
-  reset() {
+  defaultPosition() {
     this.x = 202;
     this.y = 400;
   }
   // Draw the player on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.drawBox(this.x + 16, this.y + 61, this.boxWidth, this.boxHeight);
+    // this.drawBox(this.x + 16, this.y + 61, this.boxWidth, this.boxHeight);
   }
 
   handleInput(key) {
@@ -121,29 +119,57 @@ class Player {
           break;
         }
         break;
+      case 'restart':
+        game.resetGame();
+        break;
     }
   }
 
-  collision() {
-    this.reset();
-  }
-
-  drawBox(x, y, width, height) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = '';
-    ctx.strokeStyle = '';
-    ctx.stroke();
-  }
+  // drawBox(x, y, width, height) {
+  //   ctx.beginPath();
+  //   ctx.rect(x, y, width, height);
+  //   ctx.lineWidth = '';
+  //   ctx.strokeStyle = '';
+  //   ctx.stroke();
+  // }
 }
 
 class Game {
   constructor() {
-    this.started = false;
+    this.started = true;
   }
 
   update() {
     lives.innerHTML = `You lives: ${player.lives}`;
+    this.gameOver();
+  }
+
+  gameOver() {
+    if (player.lives === 0) {
+      this.started = false;
+      openModal();
+    }
+  }
+
+  handleInput(key) {
+    switch (key) {
+      case 'pause':
+        if (this.started) {
+          this.started = false;
+          break;
+        } else {
+          this.started = true;
+          console.log('started!');
+          break;
+        }
+    }
+  }
+
+  resetGame() {
+    player.lives = 5;
+    game.started = true;
+    closeModal();
+    console.log('game.started', game.started);
   }
 }
 
@@ -152,17 +178,37 @@ const enemy1 = new Enemy();
 const enemy2 = new Enemy(100, 320);
 const allEnemies = [enemy1, enemy2];
 const player = new Player();
+const modal = document.querySelector('.js-modal');
+const replay = document.querySelector('.replay');
+const lives = document.querySelector('.live');
+
+function openModal() {
+  modal.classList.add('js-modal--opened');
+  modal.classList.remove('js-modal');
+}
+
+function closeModal() {
+  modal.classList.add('js-modal');
+  modal.classList.remove('js-modal--opened');
+}
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
   e.preventDefault;
-  const allowedKeys = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down'
-  };
-
-  player.handleInput(allowedKeys[e.keyCode]);
+  if (game.started) {
+    const allowedKeys = {
+      37: 'left',
+      38: 'up',
+      39: 'right',
+      40: 'down',
+      82: 'restart'
+    };
+    player.handleInput(allowedKeys[e.keyCode]);
+  } else {
+    const allowedKeys = {
+      32: 'pause'
+    };
+    game.handleInput(allowedKeys[e.keyCode]);
+  }
 });
-const lives = document.querySelector('.live');
+replay.addEventListener('click', game.resetGame);
