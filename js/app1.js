@@ -72,7 +72,7 @@ class Enemy {
 }
 
 class Player {
-  constructor(x = 202, y = 420) {
+  constructor(x = 202, y = 400) {
     // Load player image
     this.sprite = 'images/char-horn-girl.png';
     // Starting coordinates
@@ -101,16 +101,22 @@ class Player {
         console.log('this.y', this.y);
         break;
       case 'down':
-        this.y += 83;
-        console.log('this.y', this.y);
+        if (this.y != 400) {
+          this.y += 83;
+          break;
+        }
         break;
       case 'left':
-        this.x -= 101;
-        console.log('this.x', this.x);
+        if (this.x != 0) {
+          this.x -= 101;
+          break;
+        }
         break;
       case 'right':
-        this.x += 101;
-        console.log('this.x', this.x);
+        if (this.x != 404) {
+          this.x += 101;
+          break;
+        }
         break;
     }
   }
