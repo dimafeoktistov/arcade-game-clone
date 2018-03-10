@@ -33,7 +33,7 @@ class Enemy {
   }
 
   collisionsCheck() {
-    var enemyBox = {
+    const enemyBox = {
       // Variables applied to each instance
       x: this.x,
       y: this.y,
@@ -58,6 +58,8 @@ class Enemy {
     ) {
       // Collision detected!
       console.log('Collision is detected.');
+      player.lives--;
+      lives.innerHTML = `You lives: ${player.lives}`;
       player.collision();
     }
   }
@@ -80,9 +82,10 @@ class Player {
     this.y = y;
     this.boxWidth = 65;
     this.boxHeight = 74;
+    this.lives = 5;
   }
 
-  update(dt) {}
+  update() {}
 
   reset() {
     this.x = 202;
@@ -134,6 +137,17 @@ class Player {
   }
 }
 
+class Game {
+  constructor() {
+    this.started = false;
+  }
+
+  update() {
+    lives.innerHTML = `You lives: ${player.lives}`;
+  }
+}
+
+const game = new Game();
 const enemy1 = new Enemy();
 const enemy2 = new Enemy(100, 320);
 const allEnemies = [enemy1, enemy2];
@@ -151,3 +165,4 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 });
+const lives = document.querySelector('.live');
