@@ -79,7 +79,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.boxWidth = 65;
-    this.boxHeight = 74;
+    this.boxHeight = 50;
     this.lives = 5;
     this.gems = 0;
   }
@@ -93,7 +93,7 @@ class Player {
   // Draw the player on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // this.drawBox(this.x + 16, this.y + 61, this.boxWidth, this.boxHeight);
+    this.drawBox(this.x + 16, this.y + 61, this.boxWidth, this.boxHeight);
   }
 
   handleInput(key) {
@@ -126,13 +126,13 @@ class Player {
     }
   }
 
-  // drawBox(x, y, width, height) {
-  //   ctx.beginPath();
-  //   ctx.rect(x, y, width, height);
-  //   ctx.lineWidth = '';
-  //   ctx.strokeStyle = '';
-  //   ctx.stroke();
-  // }
+  drawBox(x, y, width, height) {
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.lineWidth = '';
+    ctx.strokeStyle = '';
+    ctx.stroke();
+  }
 }
 
 class Game {
@@ -190,9 +190,9 @@ class Gem {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.boxWidth = 80;
-    this.boxHeight = 67;
-    this.sprite = 'images/greengem.png';
+    this.boxWidth = 50;
+    this.boxHeight = 50;
+    this.sprite = 'images/Gem-Green.png';
   }
 
   update(dt) {
@@ -201,6 +201,7 @@ class Gem {
 
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    this.drawBox(this.x, this.y, this.boxWidth, this.boxHeight);
   }
 
   reset() {
@@ -212,7 +213,7 @@ class Gem {
       // Variables applied to each instance
       x: this.x,
       y: this.y,
-      // Enemy collision area
+      // Gem collision area
       width: this.boxWidth,
       height: this.boxHeight
     };
@@ -220,7 +221,7 @@ class Gem {
       // Variables applied to each instance
       x: player.x,
       y: player.y,
-      // Enemy collision area
+      // Player collision area
       width: player.boxWidth,
       height: player.boxHeight
     };
@@ -231,17 +232,26 @@ class Gem {
       gemBox.y < playerBox.y + playerBox.height &&
       gemBox.height + gemBox.y > playerBox.y
     ) {
+      console.log('collision');
       // Collision detected!
       player.gems++;
       this.x = -100;
       this.y = -100;
     }
   }
+
+  drawBox(x, y, width, height) {
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.lineWidth = '';
+    ctx.strokeStyle = '';
+    ctx.stroke();
+  }
 }
 
 const game = new Game();
 const enemy1 = new Enemy();
-const enemy2 = new Enemy(100, 320);
+const enemy2 = new Enemy(100, 120);
 const allGems = [];
 function getGems() {
   for (var i = 0; i < 3; i++) {
