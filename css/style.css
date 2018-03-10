@@ -51,3 +51,12 @@
 .jumbotron {
   background-color: #82c303;
 }
+
+.game {
+  text-align: center;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-around;
+}

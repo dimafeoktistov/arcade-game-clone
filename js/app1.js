@@ -56,7 +56,6 @@ class Enemy {
       enemyBox.y < playerBox.y + playerBox.height &&
       enemyBox.height + enemyBox.y > playerBox.y
     ) {
-      // Collision detected!
       player.lives--;
       player.defaultPosition();
     }
@@ -93,15 +92,19 @@ class Player {
   // Draw the player on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.drawBox(this.x + 16, this.y + 61, this.boxWidth, this.boxHeight);
   }
 
   handleInput(key) {
     switch (key) {
       case 'up':
-        this.y -= 83;
-        console.log('this.y', this.y);
-        break;
+        if (this.y != 68) {
+          this.y -= 83;
+          break;
+        } else {
+          this.defaultPosition();
+          this.lives--;
+          break;
+        }
       case 'down':
         if (this.y != 400) {
           this.y += 83;
@@ -125,14 +128,6 @@ class Player {
         break;
     }
   }
-
-  drawBox(x, y, width, height) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = '';
-    ctx.strokeStyle = '';
-    ctx.stroke();
-  }
 }
 
 class Game {
@@ -142,6 +137,7 @@ class Game {
 
   update() {
     lives.innerHTML = `You lives: ${player.lives}`;
+    gemsCount.innerHTML = `Gems collected: ${player.gems}`;
     this.gameOver();
     this.gameWon();
   }
@@ -150,12 +146,14 @@ class Game {
     if (player.lives === 0) {
       this.started = false;
       openModal();
+      message.innerHTML = 'You Lost :(';
     }
   }
   gameWon() {
     if (player.gems === 3) {
       this.started = false;
       openModal();
+      message.innerHTML = 'You Won!!!';
     }
   }
 
@@ -182,7 +180,16 @@ class Game {
     player.lives = 5;
     game.started = true;
     closeModal();
-    console.log('game.started', game.started);
+  }
+
+  stopGame() {
+    player.defaultPosition();
+    allGems.forEach(function(gem) {
+      gem.reset();
+    });
+    player.gems = 0;
+    player.lives = 5;
+    closeModal();
   }
 }
 
@@ -201,12 +208,11 @@ class Gem {
 
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.drawBox(this.x, this.y, this.boxWidth, this.boxHeight);
   }
 
   reset() {
     this.x = getRandomCoordinates(0, 404);
-    this.y = getRandomCoordinates(0, 300);
+    this.y = getRandomCoordinates(0, 250);
   }
   collisionsCheck() {
     const gemBox = {
@@ -232,39 +238,35 @@ class Gem {
       gemBox.y < playerBox.y + playerBox.height &&
       gemBox.height + gemBox.y > playerBox.y
     ) {
-      console.log('collision');
       // Collision detected!
       player.gems++;
       this.x = -100;
       this.y = -100;
     }
   }
-
-  drawBox(x, y, width, height) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = '';
-    ctx.strokeStyle = '';
-    ctx.stroke();
-  }
 }
 
 const game = new Game();
 const enemy1 = new Enemy();
-const enemy2 = new Enemy(100, 120);
+const enemy2 = new Enemy(100, 135);
+const enemy3 = new Enemy(100, 65);
 const allGems = [];
-function getGems() {
-  for (var i = 0; i < 3; i++) {
-    gem = new Gem(getRandomCoordinates(0, 404), getRandomCoordinates(0, 300));
-    allGems.push(gem);
-  }
-}
-getGems();
-const allEnemies = [enemy1, enemy2];
+const allEnemies = [enemy1, enemy2, enemy3];
 const player = new Player();
 const modal = document.querySelector('.js-modal');
 const replay = document.querySelector('.replay');
+const restart = document.querySelector('.restart');
 const lives = document.querySelector('.live');
+const gemsCount = document.querySelector('.gems');
+const message = document.querySelector('.message');
+const ok = document.querySelector('.ok');
+
+function getGems() {
+  for (var i = 0; i < 3; i++) {
+    gem = new Gem(getRandomCoordinates(0, 404), getRandomCoordinates(0, 250));
+    allGems.push(gem);
+  }
+}
 
 function openModal() {
   modal.classList.add('js-modal--opened');
@@ -280,6 +282,7 @@ function getRandomCoordinates(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+getGems();
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -301,3 +304,16 @@ document.addEventListener('keyup', function(e) {
   }
 });
 replay.addEventListener('click', game.resetGame);
+restart.addEventListener('click', game.resetGame);
+ok.addEventListener('click', game.stopGame);
+//prevents default keys action
+window.addEventListener(
+  'keydown',
+  function(e) {
+    // space and arrow keys
+    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+    }
+  },
+  false
+);

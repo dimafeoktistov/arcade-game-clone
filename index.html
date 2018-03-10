@@ -20,8 +20,9 @@
         <div class="card">
           <div class="card-block">
             <h4 class="card-title">Helper notes</h4>
-            <p class="card-text">You have 5 lifes so you don't need to worry to much right now. And anyway you always can press restart button.</p>
-            <button type="button" class="btn-primary btn-block" name="button">Restart</button>
+            <p class="card-text">You have 5 lifes so you don't need to worry about bugs too much. And anyway if you feel like you are loosing you always can press restart button.</p>
+            <p class="card-text">Also you can use keyboard shortcut for restarting which is: <strong>R</strong></p>
+            <button type="button" class="btn-primary btn-block restart" name="button">Restart</button>
           </div>
         </div>
       </div>
@@ -29,8 +30,13 @@
         <div class="card">
           <div class="card-block">
             <h4 class="card-title">The game!</h4>
-            <button type="button" class="start btn-success btn-block" name="button">Start game</button>
-            <div class="live"></div>
+            <button type="button" class="start btn-success btn-block restart" name="button">Start game</button>
+            <div class="game"></div>
+            <div class="game-info">
+              <div class="live"></div>
+              <div class="gems"></div>
+            </div>
+
           </div>
         </div>
 
@@ -41,10 +47,10 @@
 
     <div class="js-modal">
       <div class="js-modal-inner">
-        YOU LOST! HAHAHA
+        <span class="message"></span>
         <div class="js-modal-button">
-          <button type="button" class="btn primary replay">Play again!</button>
-          <button type="button" class="btn danger ok">Ok</button>
+          <button type="button" class="btn btn-primary replay">Play again!</button>
+          <button type="button" class="btn btn-danger ok">Ok</button>
         </div>
 
       </div>
