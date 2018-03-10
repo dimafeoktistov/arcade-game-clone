@@ -1,6 +1,22 @@
-frontend-nanodegree-arcade-game
-===============================
+# arcade-game-clone
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+### Demo
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+Try out game without downloading [here!](https://dimafeoktistov.github.io/arcade-game-clone/). **Note:** It will work just in Google Chrome at the present moment.
+
+### Installation
+
+To play offline you just need to download or clone this repository and then open index.html in Google Chrome.
+
+### Goal of the game
+
+Collect all 3 diamonds.
+
+### How to Play
+
+* Use the arrow keys to move Player around the board.
+* Collect diamonds by stepping on them.
+* Do not step over enemy bugs! If you hit one of these, you'll lose a life and your Player will be placed at his default location.
+* Player lose life and getting placed in default position when he fall into the water.
+* Refresh the page or hit **R** to reset the game.
+* When you win or lose, just click buttons at modal window to start play again, or stop plaing.
