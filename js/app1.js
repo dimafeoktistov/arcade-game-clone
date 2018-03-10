@@ -41,7 +41,7 @@ class Enemy {
       width: this.boxWidth,
       height: this.boxHeight
     };
-    var playerBox = {
+    const playerBox = {
       // Variables applied to each instance
       x: player.x,
       y: player.y,
@@ -81,6 +81,7 @@ class Player {
     this.boxWidth = 65;
     this.boxHeight = 74;
     this.lives = 5;
+    this.gems = 0;
   }
 
   update() {}
@@ -142,10 +143,17 @@ class Game {
   update() {
     lives.innerHTML = `You lives: ${player.lives}`;
     this.gameOver();
+    this.gameWon();
   }
 
   gameOver() {
     if (player.lives === 0) {
+      this.started = false;
+      openModal();
+    }
+  }
+  gameWon() {
+    if (player.gems === 3) {
       this.started = false;
       openModal();
     }
@@ -166,6 +174,9 @@ class Game {
   }
 
   resetGame() {
+    player.defaultPosition();
+    gem.reset();
+    player.gems = 0;
     player.lives = 5;
     game.started = true;
     closeModal();
@@ -173,9 +184,70 @@ class Game {
   }
 }
 
+class Gem {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.boxWidth = 80;
+    this.boxHeight = 67;
+    this.sprite = 'images/Gem-Green.png';
+  }
+
+  update(dt) {
+    this.collisionsCheck();
+  }
+
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+
+  reset() {
+    this.x = getRandomCoordinates(0, 404);
+    this.y = getRandomCoordinates(0, 300);
+  }
+  collisionsCheck() {
+    const gemBox = {
+      // Variables applied to each instance
+      x: this.x,
+      y: this.y,
+      // Enemy collision area
+      width: this.boxWidth,
+      height: this.boxHeight
+    };
+    const playerBox = {
+      // Variables applied to each instance
+      x: player.x,
+      y: player.y,
+      // Enemy collision area
+      width: player.boxWidth,
+      height: player.boxHeight
+    };
+
+    if (
+      gemBox.x < playerBox.x + playerBox.width &&
+      gemBox.x + gemBox.width > playerBox.x &&
+      gemBox.y < playerBox.y + playerBox.height &&
+      gemBox.height + gemBox.y > playerBox.y
+    ) {
+      // Collision detected!
+      player.gems++;
+      this.x = -100;
+      this.y = -100;
+    }
+  }
+}
+
 const game = new Game();
 const enemy1 = new Enemy();
 const enemy2 = new Enemy(100, 320);
+const allGems = [];
+function getGems() {
+  for (var i = 0; i < 3; i++) {
+    gem = new Gem(getRandomCoordinates(0, 404), getRandomCoordinates(0, 300));
+    allGems.push(gem);
+  }
+}
+getGems();
 const allEnemies = [enemy1, enemy2];
 const player = new Player();
 const modal = document.querySelector('.js-modal');
@@ -191,6 +263,11 @@ function closeModal() {
   modal.classList.add('js-modal');
   modal.classList.remove('js-modal--opened');
 }
+
+function getRandomCoordinates(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {

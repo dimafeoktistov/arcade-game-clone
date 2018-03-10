@@ -267,6 +267,9 @@ document.querySelector('.start').addEventListener('click', function() {
     allEnemies.forEach(function(enemy) {
       enemy.update(dt);
     });
+    allGems.forEach(function(gem) {
+      gem.update(dt);
+    });
     game.update();
     player.update();
   }
@@ -329,7 +332,9 @@ document.querySelector('.start').addEventListener('click', function() {
       allEnemies.forEach(function(enemy) {
         enemy.render();
       });
-
+      allGems.forEach(function(gem) {
+        gem.render();
+      });
       player.render();
     }
   }
@@ -350,7 +355,8 @@ document.querySelector('.start').addEventListener('click', function() {
     'images/grass-block.png',
     'images/enemy-bug.png',
     'images/char-boy.png',
-    'images/char-horn-girl.png'
+    'images/char-horn-girl.png',
+    'images/Gem-Green.png'
   ]);
   Resources.onReady(init);
 });
